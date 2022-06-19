@@ -1,32 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:background="@drawable/bg_rectangle_green_1_rounded_24"
-    tools:layout_height="90dp"
-    tools:layout_width="44dp">
+    android:weightSum="2"
+    tools:background="@drawable/bg_rectangle_green_1_rounded_24">
 
     <TextView
         android:id="@+id/titleTV"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:theme="@style/DayTitleTextViewTheme"
         tools:text="Mon" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
 
     <TextView
         android:id="@+id/valueTV"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="16dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:theme="@style/DayValueTextViewTheme"
         tools:text="6" />
 

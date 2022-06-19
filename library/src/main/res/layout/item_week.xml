@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="7"
+    tools:layout_height="90dp">
+
+    <com.avocadochif.weekly.horizontal.calendar.library.view.ui.DayView
+        android:id="@+id/mondayDV"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="4dp"
+        android:layout_weight="1" />
+
+    <com.avocadochif.weekly.horizontal.calendar.library.view.ui.DayView
+        android:id="@+id/tuesdayDV"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="4dp"
+        android:layout_weight="1" />
+
+    <com.avocadochif.weekly.horizontal.calendar.library.view.ui.DayView
+        android:id="@+id/wednesdayDV"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="4dp"
+        android:layout_weight="1" />
+
+    <com.avocadochif.weekly.horizontal.calendar.library.view.ui.DayView
+        android:id="@+id/thursdayDV"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="4dp"
+        android:layout_weight="1" />
+
+    <com.avocadochif.weekly.horizontal.calendar.library.view.ui.DayView
+        android:id="@+id/fridayDV"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="4dp"
+        android:layout_weight="1" />
+
+    <com.avocadochif.weekly.horizontal.calendar.library.view.ui.DayView
+        android:id="@+id/saturdayDV"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="4dp"
+        android:layout_weight="1" />
+
+    <com.avocadochif.weekly.horizontal.calendar.library.view.ui.DayView
+        android:id="@+id/sundayDV"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="4dp"
+        android:layout_weight="1" />
+
+</LinearLayout>
