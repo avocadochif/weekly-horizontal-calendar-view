@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:weekly_count_of_available_weeks_after_now="1"
-        app:weekly_count_of_available_weeks_before_now="1" />
+        app:weekly_count_of_available_weeks_in_past="1"
+        app:weekly_count_of_available_weeks_in_future="1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
