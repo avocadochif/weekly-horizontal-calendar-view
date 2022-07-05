@@ -1,9 +1,12 @@
 package com.avocadochif.weekly.horizontal.calendar.library.entity
 
+import android.os.Parcelable
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.FontRes
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 internal data class DayViewStyle(
     @DrawableRes val selectedBackgroundResId: Int,
     @DrawableRes val unselectedBackgroundResId: Int,
@@ -16,4 +19,4 @@ internal data class DayViewStyle(
 
     @FontRes val titleFontResId: Int,
     @FontRes val valueFontResId: Int
-)
+) : Parcelable

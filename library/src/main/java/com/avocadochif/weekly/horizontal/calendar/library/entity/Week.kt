@@ -1,15 +1,20 @@
 package com.avocadochif.weekly.horizontal.calendar.library.entity
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 internal data class Week(
+    val id: Int,
     val days: MutableList<Day> = mutableListOf()
-) {
+) : Parcelable {
 
-    override fun equals(other: Any?): Boolean {
-        return this === (other as Week)
-    }
-
-    override fun hashCode(): Int {
-        return javaClass.hashCode()
+    fun copy(): Week {
+        return Week(
+            id = id,
+            days = mutableListOf<Day>().apply {
+                days.forEach { add(it.copy()) }
+            })
     }
 
     companion object {

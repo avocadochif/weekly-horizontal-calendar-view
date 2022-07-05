@@ -1,14 +1,25 @@
 package com.avocadochif.weekly.horizontal.calendar.library.entity
 
+import android.os.Parcelable
 import androidx.annotation.DrawableRes
 import androidx.annotation.FontRes
 import com.avocadochif.weekly.horizontal.calendar.library.utils.DateUtils
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 internal data class Day(
     var timestamp: Long,
     var isSelected: Boolean,
     var style: DayViewStyle? = null
-) {
+) : Parcelable {
+
+    fun copy(): Day {
+        return Day(
+            timestamp = timestamp,
+            isSelected = isSelected,
+            style = style
+        )
+    }
 
     fun getDayTitle(): String {
         return DateUtils.getDayTitleFromTimestamp(timestamp).replaceFirstChar { it.uppercase() }

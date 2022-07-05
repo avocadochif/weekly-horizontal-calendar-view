@@ -13,9 +13,9 @@ internal object WeeksGenerator {
 
         return mutableListOf<Week>().apply {
             for (i in 0..(before + after)) {
-                this.add(Week().apply {
+                this.add(Week(id = i).apply {
                     for (j in 0 until Week.COUNT_OF_DAYS_IN_WEEK) {
-                        this.days.add(Day(timestamp, timestamp == current, ))
+                        this.days.add(Day(timestamp, timestamp == current))
                         timestamp += AndroidDateUtils.DAY_IN_MILLIS
                     }
                 })

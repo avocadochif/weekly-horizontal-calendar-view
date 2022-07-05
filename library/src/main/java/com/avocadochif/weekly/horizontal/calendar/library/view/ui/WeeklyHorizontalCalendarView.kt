@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import com.avocadochif.weekly.horizontal.calendar.library.R
 import com.avocadochif.weekly.horizontal.calendar.library.databinding.ViewWeeklyHorizontalCalendarBinding
+import com.avocadochif.weekly.horizontal.calendar.library.entity.Day
 import com.avocadochif.weekly.horizontal.calendar.library.entity.DayViewStyle
 import com.avocadochif.weekly.horizontal.calendar.library.entity.Week
 import com.avocadochif.weekly.horizontal.calendar.library.utils.generators.WeeksGenerator
@@ -30,11 +31,17 @@ class WeeklyHorizontalCalendarView @JvmOverloads constructor(
     private var countOfAvailableWeeksInPast: Int = 0
     private var countOfAvailableWeeksInFuture: Int = 0
 
-    private val weeks: MutableList<Week> = mutableListOf()
+    private var weeks: MutableList<Week> = mutableListOf()
 
     private val adapter = WeekAdapter(
-        onDaySelected = {}
+        onDaySelected = { day ->
+            updateDayViewsAfterSelection(day)
+            onDaySelected(day.timestamp)
+        }
     )
+
+    var onDaySelected: (timestamp: Long) -> Unit = {}
+    var onWeekChanged: (timestampOfFirstDayInWeek: Long, timestampOfLastDayInWeek: Long) -> Unit = { _, _ -> }
 
     init {
         initAttributes()
@@ -54,11 +61,9 @@ class WeeklyHorizontalCalendarView @JvmOverloads constructor(
         weeks.addAll(
             WeeksGenerator.generateWeeksBasedOnCountOfAvailableWeeksInPastAndFuture(
                 countOfAvailableWeeksInPast,
-                countOfAvailableWeeksInFuture,
+                countOfAvailableWeeksInFuture
             ).onEach { week ->
-                week.days.onEach {
-                    it.style = getDayStyle()
-                }
+                week.days.forEach { it.style = getDayStyle() }
             }
         )
     }
@@ -108,6 +113,27 @@ class WeeklyHorizontalCalendarView @JvmOverloads constructor(
                 R.font.roboto_medium
             )
         )
+    }
+
+    private fun updateDayViewsAfterSelection(day: Day) {
+        mutableListOf<Week>().apply {
+            weeks.forEach { add(it.copy()) }
+        }.also { weeks ->
+            weeks.firstOrNull { week -> week.days.any { it.isSelected } }?.let { week ->
+                week.days.firstOrNull { it.isSelected }?.let { day ->
+                    day.isSelected = false
+                }
+            }
+        }.also { weeks ->
+            weeks.firstOrNull { week -> week.days.any { it.timestamp == day.timestamp } }?.let { week ->
+                week.days.firstOrNull { it.timestamp == day.timestamp }?.let { day ->
+                    day.isSelected = true
+                }
+            }
+        }.also {
+            adapter.submitList(it)
+            weeks = it
+        }
     }
 
 }
