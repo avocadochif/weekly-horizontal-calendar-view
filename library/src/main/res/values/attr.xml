@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="WeeklyHorizontalCalendarView">
+        <attr name="weekly_count_of_available_weeks_in_past" format="integer"/>
+        <attr name="weekly_count_of_available_weeks_in_future" format="integer" />
+
+        <attr name="weekly_selected_day_background_res_id" format="reference" />
+        <attr name="weekly_unselected_day_background_res_id" format="reference" />
+
+        <attr name="weekly_selected_day_title_color_res_id" format="color" />
+        <attr name="weekly_unselected_day_title_color_res_id" format="color" />
+
+        <attr name="weekly_selected_day_value_color_res_id" format="color" />
+        <attr name="weekly_unselected_day_value_color_res_id" format="color" />
+
+        <attr name="weekly_day_title_font_res_id" format="reference" />
+        <attr name="weekly_day_value_font_res_id" format="reference" />
+    </declare-styleable>
+
+</resources>

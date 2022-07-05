@@ -6,8 +6,11 @@ import android.view.LayoutInflater
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
+import com.avocadochif.weekly.horizontal.calendar.library.R
 import com.avocadochif.weekly.horizontal.calendar.library.databinding.ViewWeeklyHorizontalCalendarBinding
+import com.avocadochif.weekly.horizontal.calendar.library.entity.DayViewStyle
 import com.avocadochif.weekly.horizontal.calendar.library.entity.Week
+import com.avocadochif.weekly.horizontal.calendar.library.utils.generators.WeeksGenerator
 import com.avocadochif.weekly.horizontal.calendar.library.view.recyclerview.adapter.WeekAdapter
 
 class WeeklyHorizontalCalendarView @JvmOverloads constructor(
@@ -16,22 +19,95 @@ class WeeklyHorizontalCalendarView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
-    private val binding = ViewWeeklyHorizontalCalendarBinding.inflate(LayoutInflater.from(context), this, true)
+    private val binding by lazy(LazyThreadSafetyMode.NONE) {
+        ViewWeeklyHorizontalCalendarBinding.inflate(LayoutInflater.from(context), this, true)
+    }
 
-    private val adapter = WeekAdapter()
+    private val attributes by lazy(LazyThreadSafetyMode.NONE) {
+        context.obtainStyledAttributes(attrs, R.styleable.WeeklyHorizontalCalendarView)
+    }
+
+    private var countOfAvailableWeeksInPast: Int = 0
+    private var countOfAvailableWeeksInFuture: Int = 0
+
+    private val weeks: MutableList<Week> = mutableListOf()
+
+    private val adapter = WeekAdapter(
+        onDaySelected = {}
+    )
 
     init {
+        initAttributes()
+        initWeeks()
+        initWeeksRV()
+    }
+
+    private fun initAttributes() {
+        countOfAvailableWeeksInPast =
+            attributes.getInteger(R.styleable.WeeklyHorizontalCalendarView_weekly_count_of_available_weeks_in_past, 0)
+        countOfAvailableWeeksInFuture =
+            attributes.getInteger(R.styleable.WeeklyHorizontalCalendarView_weekly_count_of_available_weeks_in_future, 0)
+    }
+
+    private fun initWeeks() {
+        weeks.clear()
+        weeks.addAll(
+            WeeksGenerator.generateWeeksBasedOnCountOfAvailableWeeksInPastAndFuture(
+                countOfAvailableWeeksInPast,
+                countOfAvailableWeeksInFuture,
+            ).onEach { week ->
+                week.days.onEach {
+                    it.style = getDayStyle()
+                }
+            }
+        )
+    }
+
+    private fun initWeeksRV() {
         binding.weeksRV.apply {
             setHasFixedSize(true)
             adapter = this@WeeklyHorizontalCalendarView.adapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            PagerSnapHelper().attachToRecyclerView(this)
         }
+        adapter.submitList(weeks)
+    }
 
-        PagerSnapHelper().apply {
-            attachToRecyclerView(binding.weeksRV)
-        }
-
-        adapter.submitList(mutableListOf(Week(), Week(), Week(), Week()))
+    private fun getDayStyle(): DayViewStyle {
+        return DayViewStyle(
+            selectedBackgroundResId = attributes.getResourceId(
+                R.styleable.WeeklyHorizontalCalendarView_weekly_selected_day_background_res_id,
+                R.drawable.bg_rectangle_green_1_rounded_24
+            ),
+            unselectedBackgroundResId = attributes.getResourceId(
+                R.styleable.WeeklyHorizontalCalendarView_weekly_unselected_day_background_res_id,
+                R.drawable.bg_rectangle_transparent_rounded_24
+            ),
+            selectedTitleColorResId = attributes.getResourceId(
+                R.styleable.WeeklyHorizontalCalendarView_weekly_selected_day_title_color_res_id,
+                R.color.white
+            ),
+            unselectedTitleColorResId = attributes.getResourceId(
+                R.styleable.WeeklyHorizontalCalendarView_weekly_unselected_day_title_color_res_id,
+                R.color.grey_1
+            ),
+            selectedValueColorResId = attributes.getResourceId(
+                R.styleable.WeeklyHorizontalCalendarView_weekly_selected_day_value_color_res_id,
+                R.color.white
+            ),
+            unselectedValueColorResId = attributes.getResourceId(
+                R.styleable.WeeklyHorizontalCalendarView_weekly_unselected_day_value_color_res_id,
+                R.color.black
+            ),
+            titleFontResId = attributes.getResourceId(
+                R.styleable.WeeklyHorizontalCalendarView_weekly_day_title_font_res_id,
+                R.font.roboto_regular
+            ),
+            valueFontResId = attributes.getResourceId(
+                R.styleable.WeeklyHorizontalCalendarView_weekly_day_value_font_res_id,
+                R.font.roboto_medium
+            )
+        )
     }
 
 }
