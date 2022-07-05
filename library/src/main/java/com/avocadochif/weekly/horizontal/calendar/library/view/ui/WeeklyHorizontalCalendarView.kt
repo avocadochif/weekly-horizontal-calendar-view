@@ -13,6 +13,7 @@ import com.avocadochif.weekly.horizontal.calendar.library.entity.DayViewStyle
 import com.avocadochif.weekly.horizontal.calendar.library.entity.Week
 import com.avocadochif.weekly.horizontal.calendar.library.utils.generators.WeeksGenerator
 import com.avocadochif.weekly.horizontal.calendar.library.view.recyclerview.adapter.WeekAdapter
+import com.avocadochif.weekly.horizontal.calendar.library.view.recyclerview.listener.OnScrollListener
 
 class WeeklyHorizontalCalendarView @JvmOverloads constructor(
     context: Context,
@@ -74,6 +75,11 @@ class WeeklyHorizontalCalendarView @JvmOverloads constructor(
             adapter = this@WeeklyHorizontalCalendarView.adapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             PagerSnapHelper().attachToRecyclerView(this)
+            addOnScrollListener(OnScrollListener(
+                onScrolled = { index ->
+                    onWeekChanged(weeks[index].days.first().timestamp, weeks[index].days.last().timestamp)
+                }
+            ))
         }
         adapter.submitList(weeks)
     }
